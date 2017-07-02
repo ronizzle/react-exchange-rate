@@ -10,7 +10,6 @@ const SelectionForm = ({
     getExchangeRate
   }) => {
   
-console.log(availableCurrencies)
 
     let options = availableCurrencies.map((availableCurrency) => {
             return (
@@ -24,8 +23,14 @@ console.log(availableCurrencies)
   return (
       <div>
           <InputGroup>
-            <select onChange={handleChangeCurrencyBase()} value={currencyBase}>{options}</select>
-            <select onChange={handleChangeCurrencyExchange()} value={currencyExchange}>{options}</select>
+            <select onChange={handleChangeCurrencyBase()} value={currencyBase}>
+              <option value="">--</option>
+              {options}
+            </select>
+            <select onChange={handleChangeCurrencyExchange()} value={currencyExchange}>
+              <option value="">--</option>
+              {options}
+            </select>
             <InputGroupButton>
               <Button onClick={getExchangeRate()}>
                 View

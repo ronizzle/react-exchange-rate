@@ -9,9 +9,12 @@ class ExchangeRate extends Component {
         super(props)
 
         this.state = {
-          currencyBase: props.baseCurrency,
+          currencyBase: '',
           currencyExchange: '',
-          availableCurrencies: []
+          availableCurrencies: [],
+          exchangeRateData: {
+            hasData: false
+          }
         }
 
         this.handleChangeCurrencyBase = this.handleChangeCurrencyBase.bind(this)
@@ -26,16 +29,11 @@ class ExchangeRate extends Component {
     }
 
     handleChangeCurrencyBase(event) {
-        this.setState({currencyBase: event.target.value});
-
+        this.setState({currencyBase: event.target.value, exchangeRateData: {hasData: false}});
     }
 
     handleChangeCurrencyExchange(event) {
-        this.setState({currencyExchange: event.target.value});
-
-    }
-
-    getExchangeRate() {
+        this.setState({currencyExchange: event.target.value, exchangeRateData: {hasData: false}});
 
     }
 
@@ -48,10 +46,40 @@ class ExchangeRate extends Component {
                 return response.json()
             
             }).then(json => {
-                json.rates[this.state.currencyBase] = 1
+                json.rates[this.props.baseCurrency] = 1
                 this.setState({
                     availableCurrencies: Object.keys(json.rates)
                 })
+
+            }).catch(err => {
+            
+                console.log(err)
+            
+            })
+    }
+
+    getExchangeRate() {
+        let self = this
+        let url = this._constructUrl('latest', 
+            {base: self.state.currencyBase, 
+                symbols: self.state.currencyExchange})
+        
+        fetch(url)
+            .then(response => {
+                return response.json()
+            
+            }).then(json => {
+                let self = this
+                let exchangeRateData = {
+                    hasData: true,
+                    conversionRate: json.rates[self.state.currencyExchange]
+                }
+            
+                this.setState({
+                    exchangeRateData: exchangeRateData
+                })
+
+                console.log(json)
 
             }).catch(err => {
             
@@ -81,6 +109,12 @@ class ExchangeRate extends Component {
                       />
                     </Col>
                 </Row>
+                {this.state.exchangeRateData.hasData &&
+                    <Alert color="success">
+                        1 <strong>{this.state.currencyBase}</strong> has a value of  
+                        <strong> {this.state.exchangeRateData.conversionRate} {this.state.currencyExchange}</strong>
+                    </Alert>
+                }
             </Container>
         );
     }
