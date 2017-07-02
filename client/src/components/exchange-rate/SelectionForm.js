@@ -2,8 +2,10 @@ import React from 'react'
 import { InputGroup, InputGroupButton, Input, Button } from 'reactstrap'
 
 const SelectionForm = ({
+    historyDate,
     currencyBase, 
     currencyExchange,
+    handleChangeHistoryDate, 
     handleChangeCurrencyBase, 
     handleChangeCurrencyExchange, 
     availableCurrencies, 
@@ -29,6 +31,7 @@ const SelectionForm = ({
               {options}
             </select>
 
+            <input type="date" placeholder="YYYY-mm-dd" value={historyDate} onChange={handleChangeHistoryDate()}/>
 
             <InputGroupButton>
               <Button onClick={getHistory()} color="info">

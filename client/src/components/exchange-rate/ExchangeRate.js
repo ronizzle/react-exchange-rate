@@ -9,14 +9,21 @@ class ExchangeRate extends Component {
         super(props)
 
         this.state = {
+          historyDate: '',
           currencyBase: '',
           currencyExchange: '',
           availableCurrencies: [],
           exchangeRateData: {
-            hasData: false
+            hasData: false,
+            hasError: false
+          },
+          currencyHistoryData: {
+            hasData: false,
+            hasError: false
           }
         }
 
+        this.handleChangeHistoryDate = this.handleChangeHistoryDate.bind(this)
         this.handleChangeCurrencyBase = this.handleChangeCurrencyBase.bind(this)
         this.handleChangeCurrencyExchange = this.handleChangeCurrencyExchange.bind(this)
         this.getExchangeRate = this.getExchangeRate.bind(this)
@@ -29,12 +36,28 @@ class ExchangeRate extends Component {
         return url
     }
 
+    handleChangeHistoryDate(event) {
+        this.setState({
+            historyDate: event.target.value, 
+            exchangeRateData: {hasData: false, hasError: false}, 
+            currencyHistoryData: {hasData: false, hasError: false}
+        })
+    }
+
     handleChangeCurrencyBase(event) {
-        this.setState({currencyBase: event.target.value, exchangeRateData: {hasData: false}});
+        this.setState({
+            currencyBase: event.target.value,
+            exchangeRateData: {hasData: false, hasError: false}, 
+            currencyHistoryData: {hasData: false, hasError: false}
+        })
     }
 
     handleChangeCurrencyExchange(event) {
-        this.setState({currencyExchange: event.target.value, exchangeRateData: {hasData: false}});
+        this.setState({
+            currencyExchange: event.target.value,
+            exchangeRateData: {hasData: false, hasError: false}, 
+            currencyHistoryData: {hasData: false, hasError: false}
+        })
 
     }
 
@@ -61,11 +84,21 @@ class ExchangeRate extends Component {
 
     getHistory() {
 
-        this.setState({exchangeRateData: {hasData: false}},
-            function() {
+        let self = this
+        let url = this._constructUrl(self.state.historyDate, {base: self.state.currencyBase})
+        
+        fetch(url)
+            .then(response => {
+                return response.json()
+            
+            }).then(json => {
+                console.log(json)
 
-
-            });
+            }).catch(err => {
+            
+                console.log(err)
+            
+            })
 
     }
 
@@ -90,11 +123,13 @@ class ExchangeRate extends Component {
                     exchangeRateData: exchangeRateData
                 })
 
-                console.log(json)
 
             }).catch(err => {
             
-                console.log(err)
+                this.setState({
+                    exchangeRateData: {hasData: false, hasError: true}, 
+                    currencyHistoryData: {hasData: false, hasError: false}
+                })
             
             })
     }
@@ -111,11 +146,13 @@ class ExchangeRate extends Component {
                 <Row>
                     <Col>
                       <SelectionForm
+                          historyDate={this.state.historyDate}
                           currencyBase={this.state.currencyBase}
                           currencyExchange={this.state.currencyExchange}
                           availableCurrencies={this.state.availableCurrencies}
                           handleChangeCurrencyBase={() => this.handleChangeCurrencyBase}
                           handleChangeCurrencyExchange={() => this.handleChangeCurrencyExchange}
+                          handleChangeHistoryDate={() => this.handleChangeHistoryDate}
                           getExchangeRate={() => this.getExchangeRate}
                           getHistory={() => this.getHistory}
                       />
@@ -125,6 +162,11 @@ class ExchangeRate extends Component {
                     <Alert color="success">
                         1 <strong>{this.state.currencyBase}</strong> has a value of  
                         <strong> {this.state.exchangeRateData.conversionRate} {this.state.currencyExchange}</strong>
+                    </Alert>
+                }
+                {this.state.exchangeRateData.hasError &&
+                    <Alert color="danger">
+                        <strong>There was an error loading the exchange rate.</strong> Please try again.
                     </Alert>
                 }
             </Container>
