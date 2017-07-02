@@ -17,6 +17,8 @@ For this web app, I used:
 
 Well obviously this app needs some more work to make it fully functioning.
 I think the following features will be some nice to add: 
+ - add validations on input field
+ - use a better date field
  - Currency rate trend predictions
  - Subscription based alert - a guest signs up, subscribe to a currency, and will get alerts if there are major changes o na currency rate.
  
@@ -24,7 +26,7 @@ An improved UX will definitely be helpful of course.
 
 ## Links
 
-To see the app in action, view it in [heroku](https://ronizzle-exhange-rate.herokuapp.com/).
+To see the app in action, view it in [heroku](https://ronizzle-exchange-rate.herokuapp.com/).
 
 To view the source code, here's the [link](https://github.com/ronizzle/react-exchange-rate) to the github repository.
 
