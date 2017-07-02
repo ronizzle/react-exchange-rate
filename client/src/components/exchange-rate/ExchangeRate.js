@@ -9,7 +9,7 @@ class ExchangeRate extends Component {
         super(props)
 
         this.state = {
-          historyDate: '',
+          historyDate: '2017-01-01',
           currencyBase: '',
           currencyExchange: '',
           availableCurrencies: [],
@@ -85,14 +85,23 @@ class ExchangeRate extends Component {
     getHistory() {
 
         let self = this
-        let url = this._constructUrl(self.state.historyDate, {base: self.state.currencyBase})
+        let url = this._constructUrl(self.state.historyDate, 
+            {base: self.state.currencyBase, symbols: self.state.currencyExchange})
         
         fetch(url)
             .then(response => {
                 return response.json()
             
             }).then(json => {
-                console.log(json)
+
+                json.hasData = true
+                json.hasError = false
+                json.conversionRate = json.rates[self.state.currencyExchange]
+
+                this.setState({
+                    currencyHistoryData: json, 
+                    exchangeRateData: {hasData: false, hasError: false}
+                })
 
             }).catch(err => {
             
@@ -141,6 +150,7 @@ class ExchangeRate extends Component {
 
 
     render() {
+
         return (
             <Container className="file-path-input">
                 <Row>
@@ -160,13 +170,25 @@ class ExchangeRate extends Component {
                 </Row>
                 {this.state.exchangeRateData.hasData &&
                     <Alert color="success">
-                        1 <strong>{this.state.currencyBase}</strong> has a value of  
+                        <strong>Today, 1 {this.state.currencyBase}</strong> has a value of  
                         <strong> {this.state.exchangeRateData.conversionRate} {this.state.currencyExchange}</strong>
+                    </Alert>
+                }
+                {this.state.currencyHistoryData.hasData &&
+                    <Alert color="success">
+                        On {this.state.currencyHistoryData.date}, <strong>1 {this.state.currencyBase}=
+                        {this.state.currencyHistoryData.conversionRate} {this.state.currencyExchange}
+                         </strong>
                     </Alert>
                 }
                 {this.state.exchangeRateData.hasError &&
                     <Alert color="danger">
                         <strong>There was an error loading the exchange rate.</strong> Please try again.
+                    </Alert>
+                }
+                {this.state.currencyHistoryData.hasError &&
+                    <Alert color="danger">
+                        <strong>There was an error loading the history.</strong> Please try again.
                     </Alert>
                 }
             </Container>

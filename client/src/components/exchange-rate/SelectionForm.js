@@ -31,15 +31,6 @@ const SelectionForm = ({
               {options}
             </select>
 
-            <input type="date" placeholder="YYYY-mm-dd" value={historyDate} onChange={handleChangeHistoryDate()}/>
-
-            <InputGroupButton>
-              <Button onClick={getHistory()} color="info">
-                View History
-              </Button>
-            </InputGroupButton>
-            
-
             <select onChange={handleChangeCurrencyExchange()} value={currencyExchange} className="currency-picker">
               <option value="">--</option>
               {options}
@@ -48,10 +39,19 @@ const SelectionForm = ({
 
             <InputGroupButton>
               <Button onClick={getExchangeRate()} color="primary">
-                Get Exchange Rate
+                Latest
               </Button>
             </InputGroupButton>
 
+
+            <input type="date" placeholder="YYYY-mm-dd" value={historyDate} onChange={handleChangeHistoryDate()}/>
+
+            <InputGroupButton>
+              <Button onClick={getHistory()} color="info">
+                View History
+              </Button>
+            </InputGroupButton>
+            
           </InputGroup>
       </div>
   )
