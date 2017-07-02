@@ -24,3 +24,7 @@
 .Pagination-container {
     text-align: center;
 }
+
+.currency-picker {
+	width: 37.5%;
+}

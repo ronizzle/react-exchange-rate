@@ -7,7 +7,8 @@ const SelectionForm = ({
     handleChangeCurrencyBase, 
     handleChangeCurrencyExchange, 
     availableCurrencies, 
-    getExchangeRate
+    getExchangeRate,
+    getHistory
   }) => {
   
 
@@ -23,19 +24,31 @@ const SelectionForm = ({
   return (
       <div>
           <InputGroup>
-            <select onChange={handleChangeCurrencyBase()} value={currencyBase}>
+            <select onChange={handleChangeCurrencyBase()} value={currencyBase} className="currency-picker">
               <option value="">--</option>
               {options}
             </select>
-            <select onChange={handleChangeCurrencyExchange()} value={currencyExchange}>
-              <option value="">--</option>
-              {options}
-            </select>
+
+
             <InputGroupButton>
-              <Button onClick={getExchangeRate()}>
-                View
+              <Button onClick={getHistory()} color="info">
+                View History
               </Button>
             </InputGroupButton>
+            
+
+            <select onChange={handleChangeCurrencyExchange()} value={currencyExchange} className="currency-picker">
+              <option value="">--</option>
+              {options}
+            </select>
+            
+
+            <InputGroupButton>
+              <Button onClick={getExchangeRate()} color="primary">
+                Get Exchange Rate
+              </Button>
+            </InputGroupButton>
+
           </InputGroup>
       </div>
   )

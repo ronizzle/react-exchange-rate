@@ -20,6 +20,7 @@ class ExchangeRate extends Component {
         this.handleChangeCurrencyBase = this.handleChangeCurrencyBase.bind(this)
         this.handleChangeCurrencyExchange = this.handleChangeCurrencyExchange.bind(this)
         this.getExchangeRate = this.getExchangeRate.bind(this)
+        this.getHistory = this.getHistory.bind(this)
     }
 
     _constructUrl(path, options) {
@@ -48,7 +49,7 @@ class ExchangeRate extends Component {
             }).then(json => {
                 json.rates[this.props.baseCurrency] = 1
                 this.setState({
-                    availableCurrencies: Object.keys(json.rates)
+                    availableCurrencies: Object.keys(json.rates).sort()
                 })
 
             }).catch(err => {
@@ -56,6 +57,16 @@ class ExchangeRate extends Component {
                 console.log(err)
             
             })
+    }
+
+    getHistory() {
+
+        this.setState({exchangeRateData: {hasData: false}},
+            function() {
+
+
+            });
+
     }
 
     getExchangeRate() {
@@ -106,6 +117,7 @@ class ExchangeRate extends Component {
                           handleChangeCurrencyBase={() => this.handleChangeCurrencyBase}
                           handleChangeCurrencyExchange={() => this.handleChangeCurrencyExchange}
                           getExchangeRate={() => this.getExchangeRate}
+                          getHistory={() => this.getHistory}
                       />
                     </Col>
                 </Row>
