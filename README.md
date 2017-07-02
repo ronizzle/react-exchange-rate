@@ -24,8 +24,9 @@ An improved UX will definitely be helpful of course.
 
 ## Links
 
-To see the app in action, view it in [heroku](http://someherokulink.heroku.com)
-Here's the [link](https://github.com/ronizzle/react-exchange-rate) to the github repository.
+To see the app in action, view it in [heroku](https://ronizzle-exhange-rate.herokuapp.com/).
+
+To view the source code, here's the [link](https://github.com/ronizzle/react-exchange-rate) to the github repository.
 
 ## Contact Information
 I have a [Github io profile](https://ronizzle.github.io) that I have to admit I never really had the chance to update.
