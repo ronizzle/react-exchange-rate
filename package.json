@@ -11,7 +11,7 @@
     "sql.js": "0.3.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run client\"",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
     "server": "node server.js",
     "client": "node client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
