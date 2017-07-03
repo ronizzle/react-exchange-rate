@@ -17,6 +17,7 @@ For this web app, I used:
 
 Well obviously this app needs some more work to make it fully functioning.
 I think the following features will be some nice to add: 
+ - add unit testing (using mocha)
  - add validations on input field
  - use a better date field
  - Currency rate trend predictions
